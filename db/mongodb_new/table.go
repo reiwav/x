@@ -204,7 +204,7 @@ func (t *Table) UpdateAll(filter bson.M, update interface{}) error {
 	return err
 }
 
-func (t *Table) SelectAndSort(filter bson.M, sortFields bson.M, skip, limit int64, res interface{}) error {
+func (t *Table) SelectAndSort(filter bson.M, sortFields bson.D, skip, limit int64, res interface{}) error {
 	ctx := context.Background()
 	filter["deleted_at"] = 0
 	var opts = options.Find()
