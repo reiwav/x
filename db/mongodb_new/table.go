@@ -74,6 +74,13 @@ func (t *Table) Delete(id string, model IModel) error {
 	return err
 }
 
+func (t *Table) DeleteByID(id string) error {
+	var err = t.UnsafeUpdateByID(id, bson.M{"$set": bson.M{"deleted_at": time.Now().Unix()}})
+	if err != nil {
+		logDB.Errorf("DeleteByID "+err.Error(), id)
+	}
+	return err
+}
 func (t *Table) SelectAndDelete(id string) error {
 	ctx := context.Background()
 	var timeNow = time.Now().Unix()
