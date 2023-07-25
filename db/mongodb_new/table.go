@@ -215,14 +215,14 @@ func (t *Table) SelectAndSort(filter bson.M, sortFields []string, skip, limit in
 	ctx := context.Background()
 	filter["deleted_at"] = 0
 	var opts = options.Find()
-	if len(sortFields) != nil {
+	if len(sortFields) > 0 {
 		sort := bson.D{}
 		for _, val := range sortFields {
 			if strings.Contains(val, "-") {
 				item := strings.Split(val, "-")[1]
-				sort = append(sort, bson.E{item: -1})
+				sort = append(sort, bson.E{item, -1})
 			} else {
-				sort = append(sort, bson.E{val: 1})
+				sort = append(sort, bson.E{val, 1})
 			}
 		}
 		opts.SetSort(sortFields)
