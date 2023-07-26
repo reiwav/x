@@ -76,7 +76,7 @@ func (t *Table) Delete(id string, model IModel) error {
 }
 
 func (t *Table) DeleteByID(id string) error {
-	var err = t.UnsafeUpdateByID(id, bson.M{"$set": bson.M{"deleted_at": time.Now().Unix()}})
+	var err = t.UnsafeUpdateByID(id, bson.M{"deleted_at": time.Now().Unix()})
 	if err != nil {
 		logDB.Errorf("DeleteByID "+err.Error(), id)
 	}
