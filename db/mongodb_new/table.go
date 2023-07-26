@@ -3,11 +3,12 @@ package mongodb_new
 import (
 	"context"
 	"fmt"
+	"strings"
+	"time"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"strings"
-	"time"
 )
 
 type Table struct {
@@ -216,16 +217,16 @@ func (t *Table) SelectAndSort(filter bson.M, sortFields []string, skip, limit in
 	filter["deleted_at"] = 0
 	var opts = options.Find()
 	if len(sortFields) > 0 {
-		sort := bson.D{}
+		sortBson := bson.D{}
 		for _, val := range sortFields {
 			if strings.Contains(val, "-") {
 				item := strings.Split(val, "-")[1]
-				sort = append(sort, bson.E{item, -1})
+				sortBson = append(sortBson, bson.E{item, -1})
 			} else {
-				sort = append(sort, bson.E{val, 1})
+				sortBson = append(sortBson, bson.E{val, 1})
 			}
 		}
-		opts.SetSort(sortFields)
+		opts.SetSort(sortBson)
 	}
 	if skip > 0 {
 		opts.SetSkip(skip)
